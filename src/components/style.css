@@ -1,0 +1,212 @@
+.about-card {
+  background-color: #2c3e50 !important;
+  color: white;
+  align-self: center;
+}
+body {
+  font-family: "Varela Round", sans-serif !important;
+}
+.bg-semidark {
+  background-color: #2c3e50;
+  color: white;
+}
+.bg-main {
+  background-color: #d3d3d3 !important;
+}
+.bg-mainchat {
+  background-color: #2c3e50;
+  color: white;
+}
+.center-div {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.chat-profile-pic {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+.copyright-txt {
+  position: absolute;
+  bottom: 0.5rem;
+}
+.contact-icon {
+  color: rgb(214, 214, 214);
+  align-self: center;
+  padding-left: 1rem;
+  font-size: 1.5rem;
+}
+.contact-icon:hover {
+  color: white;
+}
+.contact-icon2 {
+  color: rgb(214, 214, 214);
+  align-self: center;
+  padding-left: 1rem;
+  font-size: 1.5rem;
+}
+.contact-icon2:hover {
+  color: white;
+}
+.contact-icon3 {
+  color: #343a40;
+  align-self: center;
+  font-size: 1.25rem;
+}
+.contact-icon3:hover {
+  color: #007bff;
+}
+.dot {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 0.5rem;
+  /* making element vertically center */
+  align-self: center;
+}
+.form {
+  padding: 0 20% !important;
+}
+.input-icon {
+  position: absolute;
+  margin-left: 10px;
+  margin-top: 5px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  color: #878787;
+}
+
+input.with-icon {
+  padding-left: 40px;
+}
+.input-chat {
+  display: flex;
+  border-radius: 0.25rem;
+  border: 1px solid lightslategray;
+  padding: 0.3rem;
+  width: 80%;
+  height: 80%;
+}
+.img-search {
+  width: 3rem;
+}
+.img-chat {
+  width: 3.5rem;
+  margin: 0.5rem;
+  border: solid #aaaaaa 1px;
+}
+
+.list-group-item {
+  background-color: #1f2d3c !important;
+  color: #aaaaaa !important;
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+  text-align: center !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.125) !important;
+}
+.list-group-item.active {
+  background-color: #2c3e50 !important;
+  color: white !important;
+  border-color: rgba(255, 255, 255, 0.125) !important;
+}
+.listcontact-chat {
+  border-left: none !important;
+  border-color: transparent;
+  background-color: transparent;
+}
+.main-chat-2 {
+  background-color: #2c3e50;
+}
+.name-chat {
+  font-size: 1.1rem;
+}
+
+.time-text {
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+.preview-chat {
+  font-size: 0.8rem;
+  float: left;
+  color: #aaaaaa;
+}
+.profile-chat h6 {
+  font-size: 1.15rem !important;
+}
+.profile-chat {
+  border-color: transparent;
+  background-color: white;
+  border-radius: 0.5rem;
+}
+.profile-icon {
+  color: #2c3e50;
+  align-self: center;
+  padding-left: 1rem;
+  font-size: 2.5rem;
+}
+.profile-icon:hover {
+  color: #1f2d3c;
+}
+.scrollable-div-about {
+  height: 100vh;
+  overflow: scroll;
+}
+.scrollable-div {
+  flex-grow: 1;
+  vertical-align: unset;
+  justify-content: flex-end;
+  overflow: auto;
+}
+.support-scrollable-div {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+}
+.section-profile {
+  border: none !important;
+  background-color: transparent;
+}
+.section-profile:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+.section-chat {
+  border-left: none !important;
+  background-color: transparent;
+}
+.section-chat:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+.section-chat-div {
+  padding-left: 0.5rem;
+}
+
+@media (max-width: 1199.98px) {
+  .chat-profile-pic {
+    width: 2rem;
+    height: 2rem;
+  }
+  .contact-icon2 {
+    padding-left: 0.5rem;
+    font-size: 1rem;
+  }
+  .dot {
+    height: 10px;
+    width: 10px;
+  }
+  .name-chat {
+    font-size: 1rem;
+  }
+  .section-chat-div {
+    padding-left: 0.25rem;
+  }
+  .section-profile h5 {
+    font-size: 1rem;
+  }
+  .preview-chat {
+    font-size: 0.8rem;
+  }
+}
