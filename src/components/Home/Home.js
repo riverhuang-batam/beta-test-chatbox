@@ -46,7 +46,7 @@ const Home = (props) => {
         )
       .catch(err => console.log(err))
     
-  }, [message, firstShow])
+  }, [message, firstShow, targetUserId])
   
   const changeFirstShow = (data) => {
     props.showDetailRecentChat(data);
