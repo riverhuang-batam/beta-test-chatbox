@@ -234,7 +234,9 @@ const Home = (props) => {
                 <div className="d-flex">
                   <h6 className="font-weight-bold">{data._senderUserId}</h6>
             <p className="my-0 ml-auto time-text">{data.message} </p>
-            <img src={data.images}/>
+            {console.log(data.images)}
+            {data.images.length >= 1 ?<img src={`http://localhost:8000/uploads/${data.images}`}/> : null}
+            
             {/* {data.images.map(image => {
               console.log(image)
               return(
