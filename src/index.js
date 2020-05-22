@@ -5,6 +5,7 @@ import thunk from "redux-thunk";
 import reducers from "./reducers/index";
 import ReactDOM from "react-dom";
 import App from "./App";
+import 'emoji-mart/css/emoji-mart.css'
 
 import "bootstrap/dist/css/bootstrap.css";
 import * as serviceWorker from "./serviceWorker";

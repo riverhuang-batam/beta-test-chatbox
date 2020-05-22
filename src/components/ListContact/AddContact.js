@@ -105,7 +105,7 @@ const AddContact = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  // console.log(state);
+  console.log(state);
   return {
     show: state.mainReducer.isShowAdd,
     dataUser: state.mainReducer.dataUser,

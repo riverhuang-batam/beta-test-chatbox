@@ -7,12 +7,15 @@ import { showDeleteContactForm } from "../../actionCreators/MainAction";
 
 const itemListContact = (props) => {
   const addNewChat = (data) => {
+    
     props.createNewChat(data);
+  
 
     props.history.push({
       pathname: "/",
     });
   };
+  
   const showFormDelete = () => {
     props.showDeleteContactForm(props.dataContacts);
   };
@@ -20,6 +23,7 @@ const itemListContact = (props) => {
     <div className="list-group-item list-group-item-action active py-2 px-1 listcontact-chat">
       <button className="w-100 text-white listcontact-chat">
         <div className="d-flex d-row">
+          <button onClick={console.log(props.dataContacts)}></button>
           <img
             src={props.dataContacts.image}
             className="chat-profile-pic rounded-circle"
@@ -35,7 +39,10 @@ const itemListContact = (props) => {
           <div className="d-flex d-row ml-auto">
             <NavLink to = {`/chat/${props.dataContacts._id}`}>
             <p
-              onClick={() => addNewChat(props.dataContacts)}
+              onClick={() => {
+                addNewChat(props.dataContacts)
+                
+              }}
               className="contact-icon2 my-0"
             >
               <i className="fas fa-comment" />

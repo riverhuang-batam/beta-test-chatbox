@@ -75,7 +75,7 @@ const ListContact = (props) => {
   );
 };
 const mapStateToProps = (state) => {
-  // console.log(state);
+  console.log(state);
   return {
     dataContact: state.mainReducer.dataContact,
   };

@@ -1,13 +1,11 @@
-import React, { useState , useEffect} from "react";
+import React, { useState , useEffect, useRef, createRef} from "react";
 import homePicture from "../../assets/text2.png";
 import jwt from 'jwt-decode'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 import io from 'socket.io-client'
-// import profilePicture from "../../assets/default.jpg";
-// import user1 from "../../assets/ozy.png";
 import "../style.css";
-import Picker from 'emoji-picker-react';
+import Picker from 'emoji-picker-react'
 import { showDetailRecentChat } from "../../actionCreators/ChatAction";
 import { connect } from "react-redux";
 
@@ -16,10 +14,14 @@ const Home = (props) => {
   const [senderUserId, setSenderUserId] = useState('')
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
+  const [file, setFile] = useState(null)
+  const [fileName, setFileName] = useState('')
   const [targetUserId, setTargetUserId] = useState('');
-  const [chosenEmoji, setChosenEmoji] = useState(null);
+  const [ref, setRef] = useState(null)
+  const [emojiShown, setEmojiShown] = useState(false);
+  const [chosenEmoji, setChosenEmoji] = useState([null]);
   const socket = io(`${process.env.REACT_APP_API_URL}`)
-  
+  const inputRef = createRef()
       
   useEffect(()=> {
     if(localStorage.token){
@@ -34,6 +36,7 @@ const Home = (props) => {
       .then(messagesdata => {
         // if(localStorage.getItem('token') === messages.data)
         console.log(messagesdata.data)
+        // if(messagesdata.data[0].messages){
         setMessages(messagesdata.data[0].messages)
         
         socket.on('sendMessage', (message)=>{
@@ -41,6 +44,10 @@ const Home = (props) => {
             // setMessages([newMessage])
             // setMessages([message])
       }) 
+    // }
+    // else if(messagesdata.data[0].messages === null){
+    //   setMessages(messagesdata.data[0].messages, message)
+    // }
       }
         
         )
@@ -52,26 +59,66 @@ const Home = (props) => {
     props.showDetailRecentChat(data);
     setFirstShow(false);
     setTargetUserId(`${data._id}`)
-    
-    
   };
+  const selectFile = e => {
+    console.log(e.target.files[0])
+    setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name)
+    e.preventDefault()
+  const fd = new FormData()
+  fd.append('images', file)
+  fd.append('senderUserId',senderUserId)
+  fd.append('targetUserId',  targetUserId)
+  axios.post('http://localhost:8000/chat/postchat',fd,{
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'x-access-token' : localStorage.getItem('token')
+  }
+  ,
+      onUploadProgress: progressEvent =>{
+        console.log(`Upload Progress: ${progressEvent.loaded , progressEvent.total} ${Math.round(progressEvent.loaded / progressEvent.total * 100)} %`)
+      }
+  },
+  
+  ).then(
+    res => console.log(res)
+  ).catch(err => console.log(err))
+    };
 
-  const onEmojiClick = (e, emojiObject) => {
-    setMessage(emojiObject)
+  const showEmojiToggle = () => {
+    setEmojiShown(!emojiShown)
   }
   const updateMessage = e => {
     setMessage(e.target.value)
   }
+  const onEmojiClick = (event, emojiObject) => {
+    setChosenEmoji(emojiObject);
+}
+// const sendImage = (e) =>{
+  
+// }
   const sendMessage = (event) => {
     event.preventDefault()
-    
-    axios.post(`http://localhost:8000/chat/postchat`, {senderUserId, targetUserId, message}, {headers: {'x-access-token' : localStorage.getItem('token')}})
+    // let fd = new FormData()
+    // fd.append('images', file)
+    // console.log(image)
+    axios.post(`http://localhost:8000/chat/postchat`, {senderUserId, targetUserId, message}, 
+    {
+      headers: {
+        'x-access-token' : localStorage.getItem('token'),
+        // 'Content-Type': 'multipart/form-data'
+    }
+    }
+    )
       .then(value => {
+        console.log(value)
         console.log(value.data.messages)
-        
+        // setUploadedFile()
         // const message = value
         setMessage('')
+        // setImage('')   
         socket.emit('sendMessage', message, () => setMessage(''))
+        
         
         // if(message){
         //   socket.emit('sendMessage', message, () => setMessage(''))
@@ -81,9 +128,11 @@ const Home = (props) => {
       
     
   }
+
   // useEffect(() => {
   //   props.RecentChatContacts();
   // }, []);
+  
 
   return (
     <div className="row mx-0">
@@ -107,7 +156,9 @@ const Home = (props) => {
         </div>
 
         <div>
+          
           {props.RecentChatContacts.map((item, index) => {
+            
             return (
               
               <Link to={`/chat/${item._id}`}>
@@ -182,7 +233,14 @@ const Home = (props) => {
               <div className="bg-mainchat p-3">
                 <div className="d-flex">
                   <h6 className="font-weight-bold">{data._senderUserId}</h6>
-                  <p className="my-0 ml-auto time-text">{data.message}</p>
+            <p className="my-0 ml-auto time-text">{data.message} </p>
+            <img src={data.images}/>
+            {/* {data.images.map(image => {
+              console.log(image)
+              return(
+                <img src={`uploads/${image}`}/>
+              )
+            })} */}
                 </div>
                 <h6 className="my-0">
                   
@@ -212,25 +270,38 @@ const Home = (props) => {
             )}
             </div>
             <div className="d-flex pt-2 px-2 bg-white">
-              <textarea
-                rows="2"
+            
+              <input
                 type="text"
                 placeholder="Input your message here..."
                 className="input-chat"
                 onChange={updateMessage}
                 onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null}
-                value={message,message.emoji}
-              />
+                value={message}
+              />  
 
+    
+    
+  
+  
+  
+              <span id="show-emoji-yes" onClick={showEmojiToggle}>
+              
               <p className="align-self-center my-0">
-                <i className="far fa-grin-alt h3 px-3 " />
+                <i className="far fa-grin-alt h3 px-3 cursor-pointer" />
               </p>
-              <p className="align-self-center my-0">
-                <i className="fas fa-paperclip h3 " />
+              </span>
+              <Picker onEmojiClick={onEmojiClick}/>
+              
+            <input type="file" style={{display: "none"}} ref={inputRef} className="form-control-file" onChange={selectFile}/>  
+            
+              <p className="align-self-center my-0" onClick={() => inputRef.current.click()} >
+                <i className="fas fa-paperclip h3 cursor-pointer" />
               </p>
-              <p className="align-self-center my-0">
+              
+              <p className="align-self-center my-0 cursor-pointer">
                 <i onClick={(event) => sendMessage(event)} className="fas fa-arrow-circle-right h3 px-3 " />
-                <Picker onEmojiClick={onEmojiClick}/>
+                
               </p>
             </div>
           </div>
@@ -240,7 +311,7 @@ const Home = (props) => {
   );
 };
 const mapStateToProps = (state) => {
-  // console.log(state);
+  console.log(state);
   return {
     RecentChatContacts: state.chatReducer.RecentChatContacts,
     DetailChatRecentContact: state.chatReducer.DetailChatRecentContact,
